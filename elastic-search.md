@@ -6,8 +6,8 @@ It exists a third kind of node: the client, responsible for loadbalancing and ro
 
 Security wise, different aspects and related features are to be considered for ElasticSearch and Kibana:
 - manage access to the cluster based on identity (users/service accounts), based either on password, token, other auth keys, ... with a local or global directory
-- enforce a role-based access, which certainly is a feature one can set with ElasticSearch and Kibana
-- encrypt communication between nodes to protect data integrity and confidentiality (through SSL/TLS for exmaple)
+- enforce a role-based access, which is a feature one can set with ElasticSearch and Kibana
+- encrypt communication between nodes to protect data integrity and confidentiality (through SSL/TLS for example, for what I'm aware of)
 - maybe obvious but... avoid exposing Elastic or Kibana on Internet
 - surely other key options to be considered (IP filtering as mentioned in doc for example, security events auditing as well, ...)
 
