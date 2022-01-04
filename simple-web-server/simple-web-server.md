@@ -26,7 +26,7 @@ The solution I opted for here (GCP Cloud Run) scales by itself; hence a loadbala
 
 ### Automation
 I used GitLab CI to automate the build and push of the image and then the deployment of the container on GCP. The steps I followed:
-- Set up a [`.gitlab-ci.yml` file](.gitlab-ci.yaml), with 3 jobs (build/push, tf apply and tf destroy)
+- Set up a [`.gitlab-ci.yml` file](./.gitlab-ci.yml), with 3 jobs (build/push, tf apply and tf destroy)
 - Create of a Service Account on GCP, with Editor and Cloud Run Admin roles, to allow GitLab runner to perform all the actions needed
 - Issue of a JSON key for that service account, provided to GL as a env var.
 - Add a `backend.tf` file to store terraform states in a GCP Cloud Storage bucket - necessary to add a `destroy` step to my pipeline.

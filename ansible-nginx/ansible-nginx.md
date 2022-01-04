@@ -32,7 +32,7 @@ ansible-playbook -i hosts deploy-vhost2.yaml # deploy vhost2
 ```
 
 ## Bonus
-I created a new Compute Engine instance, `live-probe-http`. I completed the setup with the adding up of the SSH key and I tested manually connectivity to the nginx server (`curl` on one of the vhost `index.html`). I finally amended my [`hosts`](ansible/hosts) file and wrote [`live-probe-http.yaml` playbook](ansible/live-probe-http.yaml).
+I created a new Compute Engine instance, `live-probe-http`. I completed the setup with the adding up of the SSH key and I tested manually connectivity to the nginx server (`curl` on one of the vhost `index.html`). I finally amended my [`hosts`](./hosts) file and wrote [`live-probe-http.yaml` playbook](./live-probe-http.yaml).
 
 ## Discussion topics
 We'd probably want to manage -at least- two distinct target environments here for our deployments: dev and production. We could separate and secure deployments to each of those environments from our git repo and CI/CD pipelines, where the targets would lie in two different branches, allowing to separate assets (code, variables, ...), to configure distinct access control (users, permisssions, ...) and to add guardrails for prod target (e.g.: some manual steps for prod VS fully automated actions for dev).
