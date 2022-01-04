@@ -1,11 +1,10 @@
 # Simple Webserver
 
 ## Technical context
-
 **Set up a basic website**
 I chose to use a nginx webserver, with a very basic web content- an `index.html` "Hello World" file and an image). To keep it simple, I ran everything below from GCP Cloud Shell, within a project of a GCP free trial account. Here are the steps I followed - snippet from my bash history:
 
-```
+```bash
 git clone https://github.com/flelain/devops-challenge
 cd devops-challenge/
 docker build -t gcr.io/devops-challenge-336815/devops-challenge:0.1 .
@@ -38,3 +37,25 @@ With this pipeline:
 3. Cloud Run service can be destroyed with the `destroy` job, relying on the `terraform state` stored in a GCP bucket.
 
 ## Discussion topics
+### Metrics
+I'd probably set up a latency per user request monitoring as the first metric: it's an End-to-End metric, giving a trustworhty view of the service we offer, from a customer perspective. From an SRE point of view, we may want to define this metric as one of our major SLI (Service Level Indicators) and define an SLO (Service Level Objective) upon.
+I'd also add some more technical metrics on the infra, like CPU and Memory % Usage and define an associated alerting.
+
+### Scaling
+The solution I chose comes with a managed sacling (Cloud Run). Now, if I were to manage the scaling on my own, I'd rather develop a micro-services based webapp, run in a Kubernetes cluster, and rely on K8s autoscaling features to scale up/down depending on the traffic.
+> Note: in a VM context, I'd rely on the scalability features offered by the Virtual Infra manager (GCP, AWS, Azure, Openstack, ...), thresholds being based on CPU/Mem usage for instance.
+
+### App and Infra security
+A couple of ideas to secure the application and infra:
+- leverage https rather than http
+- use an API gateway on the way to the hosted app (micro-services based)
+- make sure to restrict network access to the infra to the bare minimum (firewall/security group rules)
+- if on public cloud, make use of the security product they offer (ex.: Cloud Armor on GCP)
+- reach out to Datadome sales :)
+
+### Release pipeline security
+Follow the best practices regarding software product development, when dealing with source code versioning and handling CI/CD pipelines:
+- distinct branches for dev/staging/prod
+- strict access control to actions against those different branches
+- testing steps before merging to staging and prod branches
+- extra guardrails to deploy to prod (manual merge/pull request for instance)

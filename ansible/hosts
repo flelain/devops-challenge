@@ -1,0 +1,8 @@
+webservers:
+  hosts:
+    nginx_server:
+      ansible_host: 34.77.60.174
+      ansible_user: devops-challenge
+    live_probe_http:
+      ansible_host: 34.77.160.179
+      ansible_user: devops-challenge

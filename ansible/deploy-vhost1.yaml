@@ -1,0 +1,59 @@
+---
+- name: deploy vhost1
+  hosts: nginx_server
+  become: true
+  vars:
+   domain_name: "devops-production.datadome.co"
+  tasks:
+   - name: create folders for the domain_name
+     file:
+      path: "{{ item }}"
+      owner: root
+      mode: 0755
+      state: directory
+     loop:
+        - '/var/www/{{domain_name}}'
+        - '/var/www/{{domain_name}}/html'
+   - name: create config file
+     file:
+      path: "{{ item }}"
+      owner: root
+      mode: 0755
+      state: touch
+     loop:
+        - '/etc/nginx/sites-available/{{domain_name}}'
+        - '/var/www/{{domain_name}}/html/index.html'
+   - name: copy contents
+     copy:
+      content: |
+                 <html>
+                 <head>
+                 <title>Welcome to vhost1</title>
+                 </head>
+                 <body>
+                 <h1>This is a test page for the domain {{domain_name}} </h1>
+                 </body>
+                 </html>
+      dest: /var/www/{{domain_name}}/html/index.html
+   - name: copy contents
+     copy:
+      content: |
+                 server {
+                 listen 80;
+                 listen [::]:80;
+                 root /var/www/{{domain_name}}/html; # The path to the domain_name files
+                 index index.html index.htm;
+                 server_name {{domain_name}};
+                 location / {
+                 try_files $uri $uri/ =404;
+                 }
+                 }
+      dest: /etc/nginx/sites-available/{{domain_name}}
+   - name: Check vhost config
+     command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -t
+     register: result
+     failed_when: result.rc != 0
+   - name: Enable virtual host
+     shell: ln -s /etc/nginx/sites-available/{{domain_name}} /etc/nginx/sites-enabled/
+   - name: Start Nginx
+     service: name=nginx state=restarted enabled=yes

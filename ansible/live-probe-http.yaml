@@ -1,0 +1,17 @@
+---
+- name: live probe on vhost1 and vhost2
+  hosts: live_probe_http
+  # become: true
+  # vars:
+  #  domain_name: "devops-production.datadome.co"
+  tasks:
+   - name: get index.html on vhost1
+      uri:
+        url: http://devops-production.datadome.co
+        method: GET
+        status_code: 200
+   - name: get index.html on vhost2
+      uri:
+        url: http://devops-dev.datadome.co:81
+        method: GET
+        status_code: 200
