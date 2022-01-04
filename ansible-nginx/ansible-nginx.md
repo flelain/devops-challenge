@@ -22,7 +22,7 @@ On Cloud Shell:
 sudo apt-get install -y ansible # Install Ansible on my control node
 ansible --version # to check ansible is properly installed
 git clone https://github.com/flelain/devops-challenge # Clone this repo to get the playbook and inventory
-cd devops-challenge/ansible
+cd devops-challenge/ansible-nginx
 ssh-keygen -t ed25519 -C "devops-challenge" # Generate a new SSH key, stored under ~/.ssh/nginx-server
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/nginx-server # Add SSH key to the control node agent
